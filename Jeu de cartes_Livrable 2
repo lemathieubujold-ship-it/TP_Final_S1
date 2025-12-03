@@ -1,0 +1,101 @@
+import json
+import random
+import os
+
+def charger_cartes(niveau):
+    """Charge les cartes du niveau choisi depuis cards.json."""
+    try:
+        with open('cards.json', 'r', encoding='utf-8') as fichier:
+            donnees = json.load(fichier)
+            return donnees.get(niveau, [])
+    except FileNotFoundError:
+        print("Fichier introuvable")
+        return []
+
+def melanger_cartes(cartes):
+    """Duplique et mélange les cartes."""
+    cartes_jeu = cartes * 2
+    random.shuffle(cartes_jeu)
+    return cartes_jeu
+
+def afficher_cartes(cartes, visibles):
+    print("jeu:")
+    print("=" * 50)
+
+    for i, carte in enumerate(cartes):
+        if visibles[i]:
+            print(f"[{carte}]", end=" ")
+        else:
+            print(f"[{i}]", end=" ")  
+
+    print("\n" + "=" * 50 + "\n")
+
+
+def demander_position_valide(message, max_index):
+
+    while True:
+        choix = input(message).strip()
+
+        if not choix.isdigit():
+            print("Veuillez entrer un nombre.")
+            continue
+        
+        choix = int(choix)
+
+        if 0 <= choix <= max_index:
+            return choix
+        else:
+            print(f"Choisissez un nombre entre 0 et {max_index}.")
+
+
+
+#      MENU PRINCIPAL 
+
+
+def afficher_menu_principal():
+
+    print("="*50)
+    print("1. Jouer une partie")
+    print("2. Afficher les scores")
+    print("3. Quitter")
+    print("="*50)
+    
+    while True:
+        choix = input("Votre choix (1-3): ").strip()
+        if choix in ['1', '2', '3']:
+            return choix
+        else:
+            print("1 à 3 j'ai dis")
+
+
+def jouer_partie():
+    print(" (livrable 2),")
+
+
+def afficher_scores():
+    print("Pas encore dispo")
+
+
+def quitter_jeu():
+    print("="*50)
+    print("  Merci d'avoir joué au Jeu")
+    print("="*50)
+    return False 
+
+
+def main():
+    print("Jeu de Mémoire")
+    continuer = True
+    while continuer:
+        choix = afficher_menu_principal()
+        
+        if choix == '1':
+            jouer_partie()
+        elif choix == '2':
+            afficher_scores()
+        elif choix == '3':
+            continuer = quitter_jeu()
+
+
+if __name__ == "__main__":
+    main()
